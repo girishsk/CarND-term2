@@ -11,30 +11,30 @@ Tools::~Tools() {}
 
 VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
                               const vector<VectorXd> &ground_truth) {
+
   /**
     * Calculate the RMSE here.
   */
-  VectorXd rmse(5);
-  rmse << 0,0,0,0,0;
+    VectorXd rmse= VectorXd(4);
+    rmse << 0,0,0,0;
+    if(estimations.size() == 0 || estimations.size() != ground_truth.size()) {
+        cout<<"Vectors not equal or vector size zero"<<endl;
+        return rmse;
+    }
 
-  if(estimations.size() == 0 || estimations.size() != ground_truth.size()) {
-      cout<<"Vectors not equal or vector size zero"<<endl;
-      return rmse;
-  }
 
-
-  //accumulate squared residuals
-  for(int i=0; i < estimations.size(); ++i){
-        // ... your code here
+    //accumulate squared residuals
+    for(int i=0; i < estimations.size(); ++i){
+            // ... your code here
         VectorXd diff = estimations[i] - ground_truth[i];
         rmse = rmse.array() + diff.array()*diff.array();
-  }
+    }
 
-  //calculate the mean
-  rmse /= estimations.size();
+    //calculate the mean
+    rmse /= estimations.size();
 
-  //calculate the squared root
-  rmse = rmse.array().sqrt();
+    //calculate the squared root
+    rmse = rmse.array().sqrt();
 
-  return rmse;
+    return rmse;
 }
