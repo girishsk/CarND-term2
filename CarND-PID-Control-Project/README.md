@@ -90,3 +90,10 @@ that's just a guess.
 
 One last note here: regardless of the IDE used, every submitted project must
 still be compilable with cmake and make./
+
+### Reflections 
+The following values for Kp, Ki and Kd were fixed for the PID controller to be working well. 
+Kp = -0.15, Ki = 0.00 and Kd = -0.80. This was hand tuned looking at the behaviour. Increasing Kd to keep the strong streeing change. Ki did not seem to have any impact. Increasing kd ( absolute value) did help in smoothing.
+
+### Video
+https://www.youtube.com/watch?v=UZT5Oq5RCo8
