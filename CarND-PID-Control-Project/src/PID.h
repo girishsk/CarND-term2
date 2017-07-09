@@ -1,3 +1,4 @@
+#include <queue>
 #ifndef PID_H
 #define PID_H
 
@@ -12,10 +13,13 @@ public:
 
   /*
   * Coefficients
-  */ 
-  double Kp;
-  double Ki;
-  double Kd;
+  */
+  double _Kp;
+  double _Ki;
+  double _Kd;
+  std::queue<double> ctes ;
+  bool cte_initialized;
+  double prev_cte;
 
   /*
   * Constructor
