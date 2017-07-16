@@ -9,6 +9,8 @@ using namespace std;
 class MPC {
  public:
   MPC();
+  Eigen::VectorXd prev_coeff;
+  bool initialized = false;
 
   virtual ~MPC();
 
