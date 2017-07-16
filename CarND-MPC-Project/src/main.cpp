@@ -17,6 +17,7 @@ constexpr double pi() { return M_PI; }
 double deg2rad(double x) { return x * pi() / 180; }
 double rad2deg(double x) { return x * 180 / pi(); }
 
+
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
 // else the empty string "" will be returned.
@@ -65,11 +66,13 @@ Eigen::VectorXd polyfit(Eigen::VectorXd xvals, Eigen::VectorXd yvals,
   return result;
 }
 
+
 int main() {
   uWS::Hub h;
 
   // MPC is initialized here!
   MPC mpc;
+
 
   h.onMessage([&mpc](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
@@ -103,7 +106,7 @@ int main() {
             double shift_y = ptsy[i] - py;
 
             ptsx[i] = shift_x*cos(0-psi) - shift_y*sin(0-psi);
-            ptsy[i] = shift_x*sin(0-psi) + shift_y*sin(0-psi);
+            ptsy[i] = shift_x*sin(0-psi) + shift_y*cos(0-psi);
 
           }
           double* ptrx = &ptsx[0];
@@ -113,6 +116,16 @@ int main() {
           Eigen::Map<Eigen::VectorXd> ptsy_transformed(ptry,6);
 
           auto coeff = polyfit(ptsx_transformed,ptsy_transformed,3);
+
+          if(not mpc.initialized){
+            mpc.prev_coeff = coeff;
+            mpc.initialized = true;
+
+          }
+          // exponential moving averages of coeffs
+          coeff = 0.9 *coeff +0.1 * mpc.prev_coeff;
+
+          mpc.prev_coeff = coeff;
 
           double cte = polyeval(coeff,0);
 
@@ -128,12 +141,13 @@ int main() {
           auto vars = mpc.Solve(state,coeff);
 
 
+
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
           double Lf = 2.67;
 
-          msgJson["steering_angle"] = vars[0]/(Lf*deg2rad(25));
+          msgJson["steering_angle"] = -vars[0]/(deg2rad(25));
           msgJson["throttle"] = vars[1];
 
           //Display the MPC predicted trajectory 
