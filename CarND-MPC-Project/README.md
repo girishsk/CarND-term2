@@ -16,7 +16,7 @@ $v_{t+1} = v_t + a_t * dt$
 
 $cte_{t+1} = f(x_t) - y_t + v_t * sin(epsi_t) * dt$
 
-$epsi_{t+1} = psi_t - psid_t + v_t * delta_t / Lf * dt$
+$epsi_{t+1} = psi_t - psides_t + v_t * delta_t / Lf * dt$
 
 
 
@@ -25,6 +25,13 @@ $epsi_{t+1} = psi_t - psid_t + v_t * delta_t / Lf * dt$
 ## N and dt
 Shorter time dt will give better prediction as its easier to fit with 2 or 3 degree polynominal. Also, having smaller N makes it faster. 
 dt of 0.1 and N of 10 was chosen. Other N of 100 and 0.001 was tried as well, N = 10 and 0.1 was faster(for 100 ms response). Also, exponiential average of coeff are kept.
+
+
+## MPC preprocessing
+The waypoints are preprocessed to the vehicle's perspective.These transformations can be found in main.cpp ( 104 - 110 line) . By doing this it fit a polynomial to the waypoints is simplified. Notice this leads to x,y, psi to be centered at zero.
+
+## MPC and Latency
+Latency is handled using a exponential moving averages of coeffecients ( so that it does not deviate too much from what was previous coeffs ). Also, its handled by giving higher penalty in the cost functions to delta and a.
 
 
 
