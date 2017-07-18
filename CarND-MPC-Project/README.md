@@ -10,11 +10,24 @@ $x_{t+1} = x_t + v_t * cos(psi_t) * dt$
 
 $y_{t+1} = y_t + v_t * sin(psi_t) * dt$
 
+$psi_{t+1} = psi_t + v_t / Lf * delta_t * dt$
+
+$v_{t+1} = v_t + a_t * dt$
+
+$cte_{t+1} = f(x_t) - y_t + v_t * sin(epsi_t) * dt$
+
+$epsi_{t+1} = psi_t - psid_t + v_t * delta_t / Lf * dt$
+
+
+
 
 
 ## N and dt
 Shorter time dt will give better prediction as its easier to fit with 2 or 3 degree polynominal. Also, having smaller N makes it faster. 
-dt of 0.1 and N of 10 was chosen. Other N of 100 and 0.001 was tried as well, N = 10 and 0.1 was faster.
+dt of 0.1 and N of 10 was chosen. Other N of 100 and 0.001 was tried as well, N = 10 and 0.1 was faster(for 100 ms response). Also, exponiential average of coeff are kept.
+
+
+
 
 
 
