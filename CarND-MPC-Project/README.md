@@ -1,6 +1,23 @@
 # CarND-Controls-MPC
 Self-Driving Car Engineer Nanodegree Program
 
+
+## Vehicle Model 
+The vehicle model used is kinematic bicycle model. Dynamical effects: torque, inertia, friction are ignored. Non-linear system as heading direction is taken into account.
+The Vehicle model can be found in FG_eval class. Along with Update.
+
+$x_{t+1} = x_t + v_t * cos(psi_t) * dt$
+
+$y_{t+1} = y_t + v_t * sin(psi_t) * dt$
+
+
+
+## N and dt
+Shorter time dt will give better prediction as its easier to fit with 2 or 3 degree polynominal. Also, having smaller N makes it faster. 
+dt of 0.1 and N of 10 was chosen. Other N of 100 and 0.001 was tried as well, N = 10 and 0.1 was faster.
+
+
+
 ---
 
 ## Dependencies
